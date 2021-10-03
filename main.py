@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/opt/homebrew/bin/python3
 
 # TODO:
 # Env -> frame stacking, image capture
@@ -10,6 +10,7 @@ import torch
 import time
 import pyautogui
 import pyscreenshot as ps
+import numpy as np
 
 gameover_screen = cv2.imread('gameover.jpg')
 
@@ -47,12 +48,34 @@ def format_frames(frames):
 
         return gray_frame
 
+def stack_frames(frames):
+    np.concatenate(frames)
+    return frames
+
 
 while True:
+    test = np.array(ps.grab(bbox=(910,920,1000,975)))
 
+    cv2.imshow('wtf3', test)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    cv2.imshow('wtf4', gameover_screen)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+    break
+
+    is_gameover = (np.array(ps.grab(bbox=(910,920,1000,975))) == gameover_screen) # TODO: fix
+
+    print(is_gameover)
+    
     frames = get_frames(4)
 
-    is_gameover = (np.array(ps.grab(bbox=(910,920,1000,975))) == gameover_screen)[0][0][0] # TODO: fix
+    frames_fmt = format_frames(frames)
 
+    frames_stack = stack_frames(frames_fmt)
+
+    print(frames_stack)
 
     time.sleep(4)

@@ -8,7 +8,7 @@ class DinoNet1(nn.Module):
         super(CustomNet, self).__init__()
 
         self.convs = nn.Sequential(
-            nn.Conv2d(1, 64, 5),
+            nn.Conv2d(4, 64, 5),
             nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2),
@@ -31,7 +31,7 @@ class DinoNet1(nn.Module):
     def forward(self, x):
         x = self.convs(x)
 
-        # print('shape', x.shape)
+        print('shape', x.shape)
         x = x.reshape(x.size(0), -1)
         x = self.lins(x)
 
